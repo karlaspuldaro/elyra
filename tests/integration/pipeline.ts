@@ -36,7 +36,7 @@ describe('Pipeline Editor tests', () => {
     });
     // open jupyterlab
     cy.visit('?token=test&reset');
-    cy.wait(100);
+    cy.wait(500);
     // wait for the file browser to load
     cy.get('.jp-DirListing-content');
   });
@@ -332,7 +332,7 @@ describe('Pipeline Editor tests', () => {
     cy.wait(100);
     // dismiss 'Making request' dialog
     cy.get('button.jp-mod-accept').click();
-    cy.wait(100);
+    cy.wait(1000);
     cy.readFile('build/cypress-tests/helloworld.yaml');
     cy.exec('find build/cypress-tests/ -name helloworld.yaml -delete', {
       failOnNonZeroExit: false
