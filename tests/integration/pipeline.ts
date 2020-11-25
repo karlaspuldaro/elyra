@@ -332,7 +332,7 @@ describe('Pipeline Editor tests', () => {
     cy.wait(100);
     // dismiss 'Making request' dialog
     cy.get('button.jp-mod-accept').click();
-    cy.wait(2000);
+    cy.wait(3000);
     cy.readFile('build/cypress-tests/helloworld.yaml');
     cy.exec('find build/cypress-tests/ -name helloworld.yaml -delete', {
       failOnNonZeroExit: false
