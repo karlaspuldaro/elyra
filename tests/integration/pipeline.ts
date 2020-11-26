@@ -327,12 +327,15 @@ describe('Pipeline Editor tests', () => {
       .should('have.value', 'yaml');
 
     // actual export requires minio
-    // export
     cy.get('button.jp-mod-accept').click();
     cy.wait(100);
+
+    // validate pipeline was exported successfully
+    cy.get('.jp-Dialog-header').contains('Pipeline export succeeded');
     // dismiss 'Making request' dialog
     cy.get('button.jp-mod-accept').click();
-    cy.wait(3000);
+
+    cy.wait(1000);
     cy.readFile('build/cypress-tests/helloworld.yaml');
     cy.exec('find build/cypress-tests/ -name helloworld.yaml -delete', {
       failOnNonZeroExit: false
