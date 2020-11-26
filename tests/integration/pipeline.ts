@@ -36,7 +36,7 @@ describe('Pipeline Editor tests', () => {
     });
     // open jupyterlab
     cy.visit('?token=test&reset');
-    cy.wait(500);
+    cy.wait(1000);
     // wait for the file browser to load
     cy.get('.jp-DirListing-content');
   });
