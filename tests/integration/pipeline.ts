@@ -42,11 +42,11 @@ describe('Pipeline Editor tests', () => {
   });
 
   afterEach(() => {
-    // delete runtime configuration used for testing
+    // delete notebook file used for testing
     cy.exec('find build/cypress-tests/ -name helloworld.ipynb -delete', {
       failOnNonZeroExit: false
     });
-    // delete runtime configuration used for testing
+    // delete python file used for testing
     cy.exec('find build/cypress-tests/ -name helloworld.py -delete', {
       failOnNonZeroExit: false
     });
@@ -54,7 +54,7 @@ describe('Pipeline Editor tests', () => {
     cy.exec('find build/cypress-tests/ -name output.txt -delete', {
       failOnNonZeroExit: false
     });
-    // delete runtime configuration used for testing
+    // delete pipeline files used for testing
     cy.exec('find build/cypress-tests/ -name *.pipeline -delete', {
       failOnNonZeroExit: false
     });
@@ -328,11 +328,15 @@ describe('Pipeline Editor tests', () => {
 
     // actual export requires minio
     cy.get('button.jp-mod-accept').click();
-    cy.wait(100);
+    cy.wait(500);
+
+    // dismiss 'Making request' dialog
+    cy.get('button.jp-mod-accept').click();
+    cy.wait(500);
 
     // validate pipeline was exported successfully
     cy.get('.jp-Dialog-header').contains('Pipeline export succeeded');
-    // dismiss 'Making request' dialog
+    // dismiss 'Pipeline export' dialog
     cy.get('button.jp-mod-accept').click();
 
     cy.wait(1000);
@@ -381,7 +385,7 @@ const createRuntimeConfig = (): any => {
   cy.get('.openRuntimes-action button').click();
   cy.get('.jp-SideBar .lm-mod-current[title="Runtimes"]');
   cy.get('.elyra-metadata .elyra-metadataHeader').contains('Runtimes');
-  // Add a runtime config (a placeholder for now, can't be used to run or export yet)
+  // Add a runtime config
   cy.get(
     'button.elyra-metadataHeader-button[title="Create new Kubeflow Pipelines runtime"]'
   ).click();
