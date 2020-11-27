@@ -328,7 +328,7 @@ describe('Pipeline Editor tests', () => {
 
     // actual export requires minio
     cy.get('button.jp-mod-accept').click();
-    cy.wait(100);
+    // cy.wait(100);
 
     // dismiss 'Making request' dialog
     cy.get('button.jp-mod-accept').click();
