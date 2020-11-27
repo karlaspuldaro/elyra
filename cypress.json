@@ -4,7 +4,7 @@
   "supportFile": false,
   "pluginsFile": "./tests/plugins/index.js",
   "screenshotsFolder": "./build/cypress-tests/screenshots",
-  "video": false,
+  "video": true,
   "videosFolder": "./build/cypress-tests/videos",
   "videoUploadOnPasses": false,
   "fixturesFolder": false,

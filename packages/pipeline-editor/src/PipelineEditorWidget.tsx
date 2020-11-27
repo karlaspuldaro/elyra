@@ -843,7 +843,7 @@ export class PipelineEditor extends React.Component<
     let pipeline_export_path = pipeline_name + '.' + pipeline_export_format;
     // only prefix the '/' when pipeline_dir is non-empty
     if (pipeline_dir) {
-      pipeline_export_path = (pipeline_dir + '/').concat(pipeline_export_path);
+      pipeline_export_path = pipeline_dir + '/' + pipeline_export_path;
     }
 
     const overwrite = dialogResult.value.overwrite;

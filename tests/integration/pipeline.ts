@@ -72,223 +72,223 @@ describe('Pipeline Editor tests', () => {
     cy.wait(1000);
   });
 
-  it('empty editor should have disabled buttons', () => {
-    openPipelineEditor();
+  // it('empty editor should have disabled buttons', () => {
+  //   openPipelineEditor();
 
-    const disabledButtons = [
-      '.run-action',
-      '.export-action',
-      '.clear-action',
-      '.undo-action',
-      '.redo-action',
-      '.cut-action',
-      '.copy-action',
-      '.paste-action',
-      '.deleteSelectedObjects-action',
-      '.arrangeHorizontally-action',
-      '.arrangeVertically-action'
-    ];
-    checkDisabledToolbarButtons(disabledButtons);
+  //   const disabledButtons = [
+  //     '.run-action',
+  //     '.export-action',
+  //     '.clear-action',
+  //     '.undo-action',
+  //     '.redo-action',
+  //     '.cut-action',
+  //     '.copy-action',
+  //     '.paste-action',
+  //     '.deleteSelectedObjects-action',
+  //     '.arrangeHorizontally-action',
+  //     '.arrangeVertically-action'
+  //   ];
+  //   checkDisabledToolbarButtons(disabledButtons);
 
-    const enabledButtons = [
-      '.save-action',
-      '.openRuntimes-action',
-      '.createAutoComment-action'
-    ];
-    checkEnabledToolbarButtons(enabledButtons);
+  //   const enabledButtons = [
+  //     '.save-action',
+  //     '.openRuntimes-action',
+  //     '.createAutoComment-action'
+  //   ];
+  //   checkEnabledToolbarButtons(enabledButtons);
 
-    closePipelineEditor();
-  });
+  //   closePipelineEditor();
+  // });
 
-  it('populated editor should have enabled buttons', () => {
-    openPipelineEditor();
-    // add Notebook
-    getFileByName('helloworld.ipynb').click();
-    getFileByName('helloworld.ipynb').rightclick();
-    cy.get('[data-command="pipeline-editor:add-node"]').click();
-    // add Python Script
-    getFileByType('python').trigger('mousedown', { button: 0 });
-    cy.get('.d3-svg-background')
-      .trigger('mousemove')
-      .trigger('mouseup', { button: 0, force: true })
-      .wait(100);
-    // check buttons
-    const disabledButtons = [
-      '.redo-action',
-      '.cut-action',
-      '.copy-action',
-      '.paste-action',
-      '.deleteSelectedObjects-action'
-    ];
-    checkDisabledToolbarButtons(disabledButtons);
+  // it('populated editor should have enabled buttons', () => {
+  //   openPipelineEditor();
+  //   // add Notebook
+  //   getFileByName('helloworld.ipynb').click();
+  //   getFileByName('helloworld.ipynb').rightclick();
+  //   cy.get('[data-command="pipeline-editor:add-node"]').click();
+  //   // add Python Script
+  //   getFileByType('python').trigger('mousedown', { button: 0 });
+  //   cy.get('.d3-svg-background')
+  //     .trigger('mousemove')
+  //     .trigger('mouseup', { button: 0, force: true })
+  //     .wait(100);
+  //   // check buttons
+  //   const disabledButtons = [
+  //     '.redo-action',
+  //     '.cut-action',
+  //     '.copy-action',
+  //     '.paste-action',
+  //     '.deleteSelectedObjects-action'
+  //   ];
+  //   checkDisabledToolbarButtons(disabledButtons);
 
-    const enabledButtons = [
-      '.run-action',
-      '.save-action',
-      '.export-action',
-      '.clear-action',
-      '.openRuntimes-action',
-      '.undo-action',
-      '.createAutoComment-action',
-      '.arrangeHorizontally-action',
-      '.arrangeVertically-action'
-    ];
-    checkEnabledToolbarButtons(enabledButtons);
+  //   const enabledButtons = [
+  //     '.run-action',
+  //     '.save-action',
+  //     '.export-action',
+  //     '.clear-action',
+  //     '.openRuntimes-action',
+  //     '.undo-action',
+  //     '.createAutoComment-action',
+  //     '.arrangeHorizontally-action',
+  //     '.arrangeVertically-action'
+  //   ];
+  //   checkEnabledToolbarButtons(enabledButtons);
 
-    closePipelineEditorWithoutSaving();
-  });
+  //   closePipelineEditorWithoutSaving();
+  // });
 
-  it('should open notebook on double-click', () => {
-    openPipelineEditor();
-    // add Notebook
-    getFileByName('helloworld.ipynb').click();
-    getFileByName('helloworld.ipynb').rightclick();
-    cy.get('[data-command="pipeline-editor:add-node"]').click();
-    // Open notebook with double-click
-    cy.get('.d3-node-label').dblclick();
-    cy.wait(100);
-    cy.get(
-      '#jp-main-dock-panel > .lm-TabBar > .lm-TabBar-content > .lm-TabBar-tab > .lm-TabBar-tabLabel'
-    )
-      .contains('helloworld.ipynb')
-      .click();
-    // Close notebook without saving
-    cy.get(
-      '.lm-TabBar-tab.lm-mod-current > .lm-TabBar-tabCloseIcon:visible'
-    ).click();
-    closePipelineEditorWithoutSaving();
-  });
+  // it('should open notebook on double-click', () => {
+  //   openPipelineEditor();
+  //   // add Notebook
+  //   getFileByName('helloworld.ipynb').click();
+  //   getFileByName('helloworld.ipynb').rightclick();
+  //   cy.get('[data-command="pipeline-editor:add-node"]').click();
+  //   // Open notebook with double-click
+  //   cy.get('.d3-node-label').dblclick();
+  //   cy.wait(100);
+  //   cy.get(
+  //     '#jp-main-dock-panel > .lm-TabBar > .lm-TabBar-content > .lm-TabBar-tab > .lm-TabBar-tabLabel'
+  //   )
+  //     .contains('helloworld.ipynb')
+  //     .click();
+  //   // Close notebook without saving
+  //   cy.get(
+  //     '.lm-TabBar-tab.lm-mod-current > .lm-TabBar-tabCloseIcon:visible'
+  //   ).click();
+  //   closePipelineEditorWithoutSaving();
+  // });
 
-  it('should save runtime configuration', () => {
-    openPipelineEditor();
-    // Create runtime configuration
-    createRuntimeConfig();
-    // validate it is now available
-    cy.get('#elyra-metadata span.elyra-expandableContainer-name').contains(
-      'Test Runtime'
-    );
-    // go back to file browser
-    cy.get('.lm-TabBar-tab[data-id="filebrowser"]').click();
-    closePipelineEditorWithoutSaving();
-  });
+  // it('should save runtime configuration', () => {
+  //   openPipelineEditor();
+  //   // Create runtime configuration
+  //   createRuntimeConfig();
+  //   // validate it is now available
+  //   cy.get('#elyra-metadata span.elyra-expandableContainer-name').contains(
+  //     'Test Runtime'
+  //   );
+  //   // go back to file browser
+  //   cy.get('.lm-TabBar-tab[data-id="filebrowser"]').click();
+  //   closePipelineEditorWithoutSaving();
+  // });
 
-  it('should fail to run invalid pipeline', () => {
-    // Copy invalid pipeline
-    cy.readFile('tests/assets/invalid.pipeline').then((file: any) => {
-      cy.writeFile('build/cypress-tests/invalid.pipeline', file);
-    });
-    // opens pileine from the file browser
-    cy.get('.jp-DirListing-content > [data-file-type="pipeline"]').dblclick();
-    // try to run invalid pipeline
-    cy.get('.run-action button').click();
-    cy.get('.MuiAlert-message').should('be.visible');
-    cy.get('.d3-node-dec-image').should('exist');
+  // it('should fail to run invalid pipeline', () => {
+  //   // Copy invalid pipeline
+  //   cy.readFile('tests/assets/invalid.pipeline').then((file: any) => {
+  //     cy.writeFile('build/cypress-tests/invalid.pipeline', file);
+  //   });
+  //   // opens pileine from the file browser
+  //   cy.get('.jp-DirListing-content > [data-file-type="pipeline"]').dblclick();
+  //   // try to run invalid pipeline
+  //   cy.get('.run-action button').click();
+  //   cy.get('.MuiAlert-message').should('be.visible');
+  //   cy.get('.d3-node-dec-image').should('exist');
 
-    // closes alert message
-    // cy.get('.MuiAlert-action > button[aria-label="close"]').click();
-  });
+  //   // closes alert message
+  //   // cy.get('.MuiAlert-action > button[aria-label="close"]').click();
+  // });
 
-  it('should run pipeline after adding runtime image', () => {
-    openPipelineEditor();
-    // add Notebook
-    getFileByName('helloworld.ipynb').click();
-    getFileByName('helloworld.ipynb').rightclick();
-    cy.get('[data-command="pipeline-editor:add-node"]').click();
-    // Adds runtime image to new node
-    cy.get('.d3-node-label').rightclick();
-    cy.get('.react-contextmenu-item:nth-child(9)')
-      .contains('Properties')
-      .click();
-    cy.get('div.properties-dropdown').click();
+  // it('should run pipeline after adding runtime image', () => {
+  //   openPipelineEditor();
+  //   // add Notebook
+  //   getFileByName('helloworld.ipynb').click();
+  //   getFileByName('helloworld.ipynb').rightclick();
+  //   cy.get('[data-command="pipeline-editor:add-node"]').click();
+  //   // Adds runtime image to new node
+  //   cy.get('.d3-node-label').rightclick();
+  //   cy.get('.react-contextmenu-item:nth-child(9)')
+  //     .contains('Properties')
+  //     .click();
+  //   cy.get('div.properties-dropdown').click();
 
-    // selects the first item of the runtimes dropdown
-    cy.get('#downshift-0-item-0').click();
-    cy.get('.bx--btn--primary')
-      .contains('Save')
-      .click();
-    // Checks that validation passed
-    cy.get('image[data-id="node_dec_image_2_error"]').should('not.exist');
-    // try to run pipeline
-    cy.get('.run-action button').click();
+  //   // selects the first item of the runtimes dropdown
+  //   cy.get('#downshift-0-item-0').click();
+  //   cy.get('.bx--btn--primary')
+  //     .contains('Save')
+  //     .click();
+  //   // Checks that validation passed
+  //   cy.get('image[data-id="node_dec_image_2_error"]').should('not.exist');
+  //   // try to run pipeline
+  //   cy.get('.run-action button').click();
 
-    // Input name should match pipeline name
-    cy.get('input#pipeline_name[data-form-required="true"]')
-      .should('exist')
-      .should('have.value', 'untitled');
+  //   // Input name should match pipeline name
+  //   cy.get('input#pipeline_name[data-form-required="true"]')
+  //     .should('exist')
+  //     .should('have.value', 'untitled');
 
-    // Runtime option should be pre-populated with local config
-    cy.get('select#runtime_config[data-form-required="true"]')
-      .should('exist')
-      .select('Run in-place locally')
-      .should('have.value', 'local');
+  //   // Runtime option should be pre-populated with local config
+  //   cy.get('select#runtime_config[data-form-required="true"]')
+  //     .should('exist')
+  //     .select('Run in-place locally')
+  //     .should('have.value', 'local');
 
-    // execute
-    cy.get('button.jp-mod-accept').click();
-    cy.wait(100);
-    // dismiss 'Making request' dialog
-    cy.get('button.jp-mod-accept').click();
-    cy.wait(100);
-    // validate job was executed successfully
-    cy.get('.jp-Dialog-header').contains('Job execution succeeded');
-    // dismiss 'Job Succeeded' dialog
-    cy.get('button.jp-mod-accept').click();
-  });
+  //   // execute
+  //   cy.get('button.jp-mod-accept').click();
+  //   cy.wait(100);
+  //   // dismiss 'Making request' dialog
+  //   cy.get('button.jp-mod-accept').click();
+  //   cy.wait(100);
+  //   // validate job was executed successfully
+  //   cy.get('.jp-Dialog-header').contains('Job execution succeeded');
+  //   // dismiss 'Job Succeeded' dialog
+  //   cy.get('button.jp-mod-accept').click();
+  // });
 
-  it('should run pipeline with env vars and output files', () => {
-    cy.readFile('tests/assets/helloworld.pipeline').then((file: any) => {
-      cy.writeFile('build/cypress-tests/helloworld.pipeline', file);
-    });
+  // it('should run pipeline with env vars and output files', () => {
+  //   cy.readFile('tests/assets/helloworld.pipeline').then((file: any) => {
+  //     cy.writeFile('build/cypress-tests/helloworld.pipeline', file);
+  //   });
 
-    getFileByName('helloworld.pipeline').rightclick();
-    cy.get('[data-command="filebrowser:open"]').click();
+  //   getFileByName('helloworld.pipeline').rightclick();
+  //   cy.get('[data-command="filebrowser:open"]').click();
 
-    // Checks that validation passed
-    cy.get('image[data-id="node_dec_image_2_error"]').should('not.exist');
-    // try to run pipeline
-    cy.get('.run-action button').click();
+  //   // Checks that validation passed
+  //   cy.get('image[data-id="node_dec_image_2_error"]').should('not.exist');
+  //   // try to run pipeline
+  //   cy.get('.run-action button').click();
 
-    // Input name should match pipeline name
-    cy.get('input#pipeline_name[data-form-required="true"]')
-      .should('exist')
-      .should('have.value', 'helloworld');
+  //   // Input name should match pipeline name
+  //   cy.get('input#pipeline_name[data-form-required="true"]')
+  //     .should('exist')
+  //     .should('have.value', 'helloworld');
 
-    // Runtime option should be pre-populated with local config
-    cy.get('select#runtime_config[data-form-required="true"]')
-      .should('exist')
-      .select('Run in-place locally')
-      .should('have.value', 'local');
+  //   // Runtime option should be pre-populated with local config
+  //   cy.get('select#runtime_config[data-form-required="true"]')
+  //     .should('exist')
+  //     .select('Run in-place locally')
+  //     .should('have.value', 'local');
 
-    // execute
-    cy.get('button.jp-mod-accept').click();
-    cy.wait(100);
-    // dismiss 'Making request' dialog
-    cy.get('button.jp-mod-accept').click();
-    cy.wait(100);
-    // validate job was executed successfully
-    cy.get('.jp-Dialog-header').contains('Job execution succeeded');
-    // dismiss 'Job Succeeded' dialog
-    cy.get('button.jp-mod-accept').click();
-    cy.readFile('build/cypress-tests/output.txt').should(
-      'be.equal',
-      'TEST_ENV_1=1\nTEST_ENV_2=2\n'
-    );
-  });
+  //   // execute
+  //   cy.get('button.jp-mod-accept').click();
+  //   cy.wait(100);
+  //   // dismiss 'Making request' dialog
+  //   cy.get('button.jp-mod-accept').click();
+  //   cy.wait(100);
+  //   // validate job was executed successfully
+  //   cy.get('.jp-Dialog-header').contains('Job execution succeeded');
+  //   // dismiss 'Job Succeeded' dialog
+  //   cy.get('button.jp-mod-accept').click();
+  //   cy.readFile('build/cypress-tests/output.txt').should(
+  //     'be.equal',
+  //     'TEST_ENV_1=1\nTEST_ENV_2=2\n'
+  //   );
+  // });
 
-  it('should fail to export invalid pipeline', () => {
-    // Copy invalid pipeline
-    cy.readFile('tests/assets/invalid.pipeline').then((file: any) => {
-      cy.writeFile('build/cypress-tests/invalid.pipeline', file);
-    });
-    // opens pileine from the file browser
-    cy.get('.jp-DirListing-content > [data-file-type="pipeline"]').dblclick();
-    // try to export invalid pipeline
-    cy.get('.export-action button').click();
-    cy.get('.MuiAlert-message').should('be.visible');
-    cy.get('.d3-node-dec-image').should('exist');
+  // it('should fail to export invalid pipeline', () => {
+  //   // Copy invalid pipeline
+  //   cy.readFile('tests/assets/invalid.pipeline').then((file: any) => {
+  //     cy.writeFile('build/cypress-tests/invalid.pipeline', file);
+  //   });
+  //   // opens pileine from the file browser
+  //   cy.get('.jp-DirListing-content > [data-file-type="pipeline"]').dblclick();
+  //   // try to export invalid pipeline
+  //   cy.get('.export-action button').click();
+  //   cy.get('.MuiAlert-message').should('be.visible');
+  //   cy.get('.d3-node-dec-image').should('exist');
 
-    // closes alert message
-    // cy.get('.MuiAlert-action > button[aria-label="close"]').click();
-  });
+  //   // closes alert message
+  //   // cy.get('.MuiAlert-action > button[aria-label="close"]').click();
+  // });
 
   it('should export pipeline', () => {
     cy.readFile('tests/assets/helloworld.pipeline').then((file: any) => {
@@ -328,7 +328,7 @@ describe('Pipeline Editor tests', () => {
 
     // actual export requires minio
     cy.get('button.jp-mod-accept').click();
-    cy.wait(500);
+    cy.wait(100);
 
     // dismiss 'Making request' dialog
     cy.get('button.jp-mod-accept').click();
